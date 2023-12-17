@@ -1,4 +1,4 @@
-import { ConvertHTMLToMarkdown } from '~/utils/MarkdownConverter'
+import { ConvertHTMLToMarkdown } from '~/utils/markdownConverter'
 
 export const vocabHTML = useStorage('vocabHTML', '<p>No vocabulary queried.</p>')
 

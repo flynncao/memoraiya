@@ -35,8 +35,7 @@ async function go() {
     else {
       const { data } = await getCambridgeExplanation(name.value)
       ConstructHTML(data)
-      window.open
-      (
+      window.open(
         'http://localhost:3333/preview',
         '_blank',
       )
@@ -52,9 +51,7 @@ function toggle(index: number) {
   <div>
     <div i-carbon-assembly inline-block text-4xl />
     <p>
-      <a
-        rel="noreferrer" href="#" target="_blank" style="font-family:Times New Roman"
-      >
+      <a rel="noreferrer" href="#" target="_blank" style="font-family:Times New Roman">
         MEMORAIYA
       </a>
     </p>
