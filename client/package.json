@@ -20,6 +20,7 @@
     "cheerio": "1.0.0-rc.12",
     "dexie": "^3.2.4",
     "marked": "^10.0.0",
+    "pinia": "^2.1.7",
     "turndown": "^7.1.2",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5"

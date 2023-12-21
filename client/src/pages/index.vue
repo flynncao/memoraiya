@@ -7,7 +7,6 @@ import { ConstructHTML } from '~/utils/markdownConverter.js'
 defineOptions({
   name: 'IndexPage',
 })
-
 const name = ref('')
 const scraperMode = ref(false)
 const portals = reactive<Portal[]>([

@@ -79,7 +79,7 @@ var init_cambridge = __esm({
     "use strict";
     init_utils();
     router = _express2.default.Router();
-    router.get("/cambridge", (req, res) => __async(void 0, null, function* () {
+    router.get("/cambridge", (req, res, next) => __async(void 0, null, function* () {
       const word = req.query.q;
       const requestURL = `https://dictionary.cambridge.org/dictionary/english/${word}/`;
       const vocab = {
@@ -97,12 +97,17 @@ var init_cambridge = __esm({
           "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
         }
       }).catch((error) => {
-        console.log("error", error);
-        res.send(error);
+        console.log("error from remote server:>> ", error);
+        next(error);
       }).then((response) => {
+        if (response.status !== 200) {
+          return res.status(503).send("Service unavailable.");
+        }
         const result = analayse(vocab, response);
         console.log("result :>> ", result);
-        res.send(result);
+        if (result.definitions.length === 0)
+          return res.status(404).send("Word not found.");
+        return res.status(200).send(result);
       });
     }));
     cambridge_default = router;
@@ -124,6 +129,10 @@ var require_server = __commonJS({
     });
     app.get("/", (req, res) => {
       res.send("Welcome to Memoraiya Server-side!");
+    });
+    app.use((err, req, res, next) => {
+      res.status(500).send(err.message);
+      next();
     });
     app.listen(port, () => {
       console.log(`\u26A1\uFE0F[server]: Server is running at http://localhost:${port}`);
