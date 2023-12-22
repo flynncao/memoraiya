@@ -1,4 +1,5 @@
 {
+  "workbench.colorTheme": "GitHub Dark Dimmed",
   "files.associations": {
     "*.css": "postcss"
   },

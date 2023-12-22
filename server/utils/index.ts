@@ -3,12 +3,12 @@ import cheerio from "cheerio";
 import { Vocab } from '../types/Vocab';
 
 /**
- * Aanlyse the HTML of the page and store the result in the vocab object
+ * Analyse the HTML of the page and store the result in the vocab object
  * @param vocab Store the result of the analysis
  * @param response The response from the Axios HTTP request, aka the HTML of the page
  * @returns 
  */
-export const analayse = (vocab: Vocab, response: any)=>{
+export const analayse = (vocab: Vocab, response: any) => {
 	// TODO: Refactor: Update to newest verion of axios api
 	const $ = cheerio.load(response.data);
 	const title = $('div.di-title:first>span>span').text();
@@ -47,7 +47,6 @@ export const analayse = (vocab: Vocab, response: any)=>{
 				.replace(/\n/g, '');
 			vocab.dataset_examples.push(dataExample);
 		});
-
 	console.log('vocab :>> ', vocab);
 	return vocab
 }

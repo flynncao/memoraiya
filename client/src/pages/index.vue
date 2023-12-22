@@ -1,6 +1,5 @@
 <script setup lang="ts" generic="T extends any, O extends any">
 import { getCambridgeExplanation } from '~/utils/scraper.js'
-
 import type { Portal } from '~/types/portal'
 import { ConstructHTML } from '~/utils/markdownConverter.js'
 
@@ -9,6 +8,7 @@ defineOptions({
 })
 const name = ref('')
 const scraperMode = ref(false)
+
 const portals = reactive<Portal[]>([
   { id: 1, name: 'Cambridge Dictionary', link: 'https://dictionary.cambridge.org/dictionary/english/', checked: true, secondArgument: false },
   { id: 2, name: 'Webster Dictionary', link: 'https://www.merriam-webster.com/dictionary/', checked: false, secondArgument: false },
@@ -44,10 +44,18 @@ async function go() {
 function toggle(index: number) {
   portals[index].checked = !portals[index].checked
 }
+function hi() {
+  console.log('hi')
+}
 </script>
 
 <template>
   <div>
+    <Button label="Submit" />
+
+    <Button @click="hi">
+      Greeting
+    </Button>
     <div i-carbon-assembly inline-block text-4xl />
     <p>
       <a rel="noreferrer" href="#" target="_blank" style="font-family:Times New Roman">

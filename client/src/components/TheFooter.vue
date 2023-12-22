@@ -1,15 +1,16 @@
 <template>
-  <nav mt-6 inline-flex gap-2 text-xl>
+  <nav class="fixed bottom-0 left-1/2 mt-6 h-[100px] w-100 flex items-center justify-center gap-2 bg-red text-xl -translate-x-1/2">
     <button icon-btn @click="toggleDark()">
-      <div i-carbon-sun dark:i-carbon-moon />
+      <i class="pi pi-sun text-xl" />
     </button>
-
     <a
-      i-carbon-logo-github icon-btn
+
       rel="noreferrer"
-      href="https://github.com/antfu/vitesse-lite"
+      href="https://github.com/flynncao/memoraiya"
       target="_blank"
       title="GitHub"
-    />
+    >
+      <i class="pi pi-github text-xl" />
+    </a>
   </nav>
 </template>
