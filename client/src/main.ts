@@ -2,6 +2,8 @@ import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import routes from 'virtual:generated-pages'
 import { createPinia } from 'pinia'
+import Notifications from '@kyvg/vue3-notification'
+import axiosPlugin from './plugins/axios'
 import App from './App.vue'
 
 //  CSS
@@ -13,9 +15,8 @@ const router = createRouter({
   routes,
 })
 const pinia = createPinia()
-app.use(router).use(pinia)
+app.use(router).use(pinia).use(axiosPlugin).use(Notifications)
 
-// Install all modules under `modules/`
 const modules: any = import.meta.glob('./modules/*.ts', { eager: true })
 for (const path in modules)
   modules[path].install(app)

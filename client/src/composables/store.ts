@@ -9,8 +9,7 @@ export const useToastStore = defineStore('toast', {
     }),
 
   // getters
-  getters: {
-	 },
+  getters: {},
   // actions
   actions: {
     show({ message, type, duration = 1500 }) {

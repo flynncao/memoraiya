@@ -1,22 +1,27 @@
 <script setup lang="ts" generic="T extends any, O extends any">
-import { getCambridgeExplanation } from '~/utils/scraper.js'
+import type { Axios } from 'axios'
 import type { Portal } from '~/types/portal'
 import { ConstructHTML } from '~/utils/markdownConverter.js'
 
 defineOptions({
   name: 'IndexPage',
 })
+
 const name = ref('')
 const scraperMode = ref(false)
-
+const axiosInstance = inject<Axios>('axios')
 const portals = reactive<Portal[]>([
   { id: 1, name: 'Cambridge Dictionary', link: 'https://dictionary.cambridge.org/dictionary/english/', checked: true, secondArgument: false },
   { id: 2, name: 'Webster Dictionary', link: 'https://www.merriam-webster.com/dictionary/', checked: false, secondArgument: false },
   { id: 3, name: 'Etymology Dictionary', link: 'https://www.etymonline.com/search?q=', checked: false, secondArgument: false },
-  { id: 4, name: 'Youtube', link: 'https://www.youtube.com/results?search_query=', checked: false, secondArgument: true },
+  { id: 4, name: 'Youglish', link: 'https://youglish.com/pronounce/@/english?', checked: false, irregular: true, secondArgument: false },
 ])
-function finalUrl(keyword: string, url: string, secondArgument: boolean): string {
-  return url + keyword + (secondArgument ? '+meaning' : '')
+function finalUrl(keyword: string, url: string, irregular: boolean | undefined): string {
+  if (irregular)
+    return url.replace('@', keyword)
+
+  else
+    return url + keyword
 }
 
 function visit() {
@@ -24,25 +29,34 @@ function visit() {
     return
 
   if (scraperMode.value === false) {
-    portals.forEach((item: Portal) => {
-      if (item.checked) {
-        const finalLink = finalUrl(name.value, item.link, item.secondArgument)
-        window.open(
-          finalLink,
-          '_blank',
-        )
-      }
-    })
+    portals.forEach(
+      ({ checked, link, irregular }: Portal) => {
+        if (checked) {
+          const finalLink = finalUrl(name.value, link, irregular)
+          window.open(
+            finalLink,
+            '_blank',
+          )
+        }
+      },
+    )
   }
 }
 async function scrape() {
   if (name.value.trim() === '')
     return
+  const response = await axiosInstance?.get('/cambridge', {
+    params: {
+      q: name.value,
+    },
+  })
+  if (response === null)
+    return
 
-  const { data } = await getCambridgeExplanation(name.value)
+  const data = response?.data
   ConstructHTML(data)
   window.open(
-    'http://localhost:3333/preview',
+    'http://localhost:3333/preview/',
     '_blank',
   )
 }
@@ -56,7 +70,7 @@ function toggle(index: number) {
   <div class="index-page h-full w-full">
     <div class="index-page-container relative left-0 top-1/2 p-4 -translate-y-3/4">
       <div class="w-full flex flex-col items-center justify-center gap-4 p-0">
-        <p class="w-60 flex flex-col items-center">
+        <p class="w-60 flex flex-col items-center" @click="memoraiya">
           <img src="dictionary.png" alt="" class="h-20 w-20">
           <strong>MEMORAIYA</strong>
         </p>
