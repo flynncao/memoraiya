@@ -14,7 +14,7 @@
   "scripts": {
     "build": "tsup --legacy-output",
     "start": "node dist/index.js",
-    "dev": "concurrently \"tsup index.ts --watch --legacy-output\" \"nodemon build/index.js\"",
+    "dev": "concurrently \"tsup index.ts --watch --legacy-output\" \"nodemon dist/index.js\"",
     "dev:tsc": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
     "deploy:windows": "cpx \"dist/**/*\" \"output\" && node nodeService.js",
     "test": "echo \"Error: no test specified\" && exit 1",
