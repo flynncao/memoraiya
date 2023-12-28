@@ -13,6 +13,12 @@
     "up": "taze major -I",
     "postinstall": "npx simple-git-hooks"
   },
+  "dependencies": {
+    "@antfu/eslint-config": "^2.6.1",
+    "concurrently": "^8.2.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1"
+  },
   "devDependencies": {
     "@unocss/eslint-config": "^0.56.4",
     "@unocss/eslint-plugin": "^0.56.4",
@@ -25,10 +31,5 @@
   },
   "lint-staged": {
     "*": "eslint --fix --no-ignore"
-  },
-  "dependencies": {
-    "concurrently": "^8.2.2",
-    "cors": "^2.8.5",
-    "dotenv": "^16.3.1"
   }
 }

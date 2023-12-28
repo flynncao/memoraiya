@@ -1,11 +1,12 @@
 import { defineConfig } from 'tsup'
 
 export default defineConfig({
-	 		entry:[
-			'index.ts'
-		],
-		splitting: true,
-		sourcemap: true,
-		clean: true,
-	}
+	entry: [
+		'index.ts'
+	],
+	splitting: true,
+	sourcemap: true,
+	clean: true,
+	outDir: 'dist',
+}
 )

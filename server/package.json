@@ -1,28 +1,35 @@
 {
   "name": "memoraiya-client",
   "type": "commonjs",
-  "private": true,
   "version": "1.0.0",
+  "private": true,
   "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
   "main": "index.ts",
+  "engines": {
+    "node": ">=16.20.2"
+  },
   "scripts": {
     "build": "tsup --legacy-output",
     "start": "node dist/index.js",
-		"dev": "concurrently \"tsup index.ts --watch --legacy-output\" \"nodemon dist/index.js\"",
+    "dev": "concurrently \"tsup index.ts --watch --legacy-output\" \"nodemon build/index.js\"",
     "dev:tsc": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
+    "deploy:windows": "cpx \"dist/**/*\" \"output\" && node nodeService.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "tsup index.ts --watch"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "axios": "^1.6.1",
     "cheerio": "1.0.0-rc.12",
     "concurrently": "^8.2.2",
     "cors": "^2.8.5",
+    "cpx": "^1.5.0",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-rate-limit": "^7.1.4",
+    "node-windows": "1.0.0-beta.8",
     "nodemon": "^3.0.1"
   },
   "devDependencies": {

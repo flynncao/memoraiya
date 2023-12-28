@@ -1,12 +1,14 @@
 import express, { Express, NextFunction, Request, Response } from 'express';
 import cambridge from './routes/cambridge';
 import cors from 'cors'
+import 'dotenv/config'
 const routes = [cambridge]
 
 const app: Express = express();
 app.use(cors())
 
-const port = 7001;
+
+const port = process.env.SERVICE_PORT || 7001;
 routes.forEach(route => {
 	app.use(route)
 })
