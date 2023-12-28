@@ -9,7 +9,7 @@
   "editor.formatOnSave": true,
   // Auto fix
   "editor.codeActionsOnSave": {
-		"source.fixAll": true,
+    "source.fixAll": true,
     "source.fixAll.eslint": "always",
     "source.organizeImports": "never"
   },
@@ -42,5 +42,11 @@
     "json",
     "jsonc",
     "yaml"
+  ],
+  "gitCommitMessageEditor.intelliSense.completion.scopes": [
+    {
+      "scope": "project",
+      "description": "Whole project."
+    }
   ]
 }
