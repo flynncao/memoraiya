@@ -6,7 +6,7 @@ import { ConstructHTML } from '~/utils/markdownConverter.js'
 defineOptions({
   name: 'IndexPage',
 })
-
+const router = useRouter()
 const name = ref('')
 const scraperMode = ref(false)
 const axiosInstance = inject<Axios>('axios')
@@ -55,10 +55,7 @@ async function scrape() {
 
   const data = response?.data
   ConstructHTML(data)
-  window.open(
-    'http://localhost:3333/preview/',
-    '_blank',
-  )
+  router.push('/preview')
 }
 
 function toggle(index: number) {
@@ -71,7 +68,7 @@ function toggle(index: number) {
     <div class="index-page-container relative left-0 top-1/2 p-4 -translate-y-3/4">
       <div class="w-full flex flex-col items-center justify-center gap-4 p-0">
         <p class="w-60 flex flex-col items-center" @click="memoraiya">
-          <img src="dictionary.png" alt="" class="h-20 w-20">
+          <img src="/dictionary.png" alt="" class="h-20 w-20">
           <strong>MEMORAIYA</strong>
         </p>
         <div class="w-60">
