@@ -1,76 +1,103 @@
 <script setup lang="ts" generic="T extends any, O extends any">
-import { getCambridgeExplanation } from '~/utils/scraper.js'
-
+import type { Axios } from 'axios'
 import type { Portal } from '~/types/portal'
 import { ConstructHTML } from '~/utils/markdownConverter.js'
 
 defineOptions({
   name: 'IndexPage',
 })
+
 const name = ref('')
 const scraperMode = ref(false)
+const axiosInstance = inject<Axios>('axios')
 const portals = reactive<Portal[]>([
   { id: 1, name: 'Cambridge Dictionary', link: 'https://dictionary.cambridge.org/dictionary/english/', checked: true, secondArgument: false },
   { id: 2, name: 'Webster Dictionary', link: 'https://www.merriam-webster.com/dictionary/', checked: false, secondArgument: false },
   { id: 3, name: 'Etymology Dictionary', link: 'https://www.etymonline.com/search?q=', checked: false, secondArgument: false },
-  { id: 4, name: 'More on Youtube', link: 'https://www.youtube.com/results?search_query=', checked: false, secondArgument: true },
+  { id: 4, name: 'Youglish', link: 'https://youglish.com/pronounce/@/english?', checked: false, irregular: true, secondArgument: false },
 ])
-function finalUrl(keyword: string, url: string, secondArgument: boolean): string {
-  return url + keyword + (secondArgument ? '+meaning' : '')
+function finalUrl(keyword: string, url: string, irregular: boolean | undefined): string {
+  if (irregular)
+    return url.replace('@', keyword)
+
+  else
+    return url + keyword
 }
-async function go() {
-  if (name.value.trim() !== '') {
-    if (scraperMode.value === false) {
-      portals.forEach((item: Portal) => {
-        if (item.checked) {
-          const finalLink = finalUrl(name.value, item.link, item.secondArgument)
+
+function visit() {
+  if (name.value.trim() === '')
+    return
+
+  if (scraperMode.value === false) {
+    portals.forEach(
+      ({ checked, link, irregular }: Portal) => {
+        if (checked) {
+          const finalLink = finalUrl(name.value, link, irregular)
           window.open(
             finalLink,
             '_blank',
           )
         }
-      })
-    }
-    else {
-      const { data } = await getCambridgeExplanation(name.value)
-      ConstructHTML(data)
-      window.open(
-        'http://localhost:3333/preview',
-        '_blank',
-      )
-    }
+      },
+    )
   }
 }
+async function scrape() {
+  if (name.value.trim() === '')
+    return
+  const response = await axiosInstance?.get('/cambridge', {
+    params: {
+      q: name.value,
+    },
+  })
+  if (response === null)
+    return
+
+  const data = response?.data
+  ConstructHTML(data)
+  window.open(
+    'http://localhost:3333/preview/',
+    '_blank',
+  )
+}
+
 function toggle(index: number) {
   portals[index].checked = !portals[index].checked
 }
 </script>
 
 <template>
-  <div>
-    <div i-carbon-assembly inline-block text-4xl />
-    <p>
-      <a rel="noreferrer" href="#" target="_blank" style="font-family:Times New Roman">
-        MEMORAIYA
-      </a>
-    </p>
-
-    <div py-4 />
-
-    <TheInput v-model="name" placeholder="Word spell?" autocomplete="false" @keydown.enter="go" />
-    <div class="p-4">
-      <div v-for="(item, index) in portals" :key="index" class="mb-2">
-        <input type="checkbox" :name="item.name" class="mr-1" :checked="item.checked" @change="toggle(index)">
-        <label :for="item.name">{{ item.name }}</label>
-      </div>
-      <div class="w-full flex flex-col items-center">
-        <div class="overflow-hidden">
-          <label for="scaperModeSwitcher" class="mr-2">Scaper the Whole Page Instead?</label>
-          <input id="scaperModeSwitcher" v-model="scraperMode" type="checkbox">
+  <div class="index-page h-full w-full">
+    <div class="index-page-container relative left-0 top-1/2 p-4 -translate-y-3/4">
+      <div class="w-full flex flex-col items-center justify-center gap-4 p-0">
+        <p class="w-60 flex flex-col items-center" @click="memoraiya">
+          <img src="dictionary.png" alt="" class="h-20 w-20">
+          <strong>MEMORAIYA</strong>
+        </p>
+        <div class="w-60">
+          <input v-model="name" type="text" class="input input-bordered" placeholder="Which word do you like?" @keydown.enter="go">
         </div>
-        <button class="m-3 text-sm btn" :disabled="!name" @click="go">
-          Explore!
-        </button>
+
+        <!-- List -->
+        <div class="w-60 flex flex-wrap gap-2">
+          <div v-for="(item, index) in portals" :key="index" class="flex items-center gap-1">
+            <input type="checkbox" :name="item.name" class="checkbox checkbox-accent mr-1" :checked="item.checked" @change="toggle(index)">
+            <label :for="item.name" class="label-text">{{ item.name }}</label>
+          </div>
+        </div>
+        <!-- Controls -->
+        <div class="mt-2 w-60 flex flex-wrap gap-2">
+          <div>
+            <button class="btn-primary btn" :disabled="!name" @click="visit">
+              Explore Yourself
+            </button>
+          </div>
+          <div>
+            <button class="btn-secondary grid-span-3 btn" :disabled="!name" @click="scrape">
+              Scrape Definitions Instead
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

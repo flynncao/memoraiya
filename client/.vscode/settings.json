@@ -1,4 +1,5 @@
 {
+  "workbench.colorTheme": "Vitesse qb dark",
   "files.associations": {
     "*.css": "postcss"
   },

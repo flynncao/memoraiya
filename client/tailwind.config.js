@@ -1,10 +1,11 @@
 /** @type {import('tailwindcss').Config} */
+import daisyui from 'daisyui'
+
 export default {
-  content: [],
-  darkMode: 'class',
+  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     extend: {},
   },
-  plugins: [],
-  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+  plugins: [daisyui],
+  daisyui: {},
 }

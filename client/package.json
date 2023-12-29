@@ -21,9 +21,12 @@
     "dexie": "^3.2.4",
     "marked": "^10.0.0",
     "pinia": "^2.1.7",
+    "primeicons": "^6.0.1",
+    "primevue": "^3.44.0",
     "turndown": "^7.1.2",
     "vue": "^3.3.4",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "vue-toastification": "2.0.0-rc.5"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^1.0.0-beta.12",
@@ -36,6 +39,7 @@
     "@vue-macros/volar": "^0.15.0",
     "@vue/test-utils": "^2.4.1",
     "autoprefixer": "^10.4.16",
+    "daisyui": "^4.4.23",
     "eslint": "^8.50.0",
     "eslint-define-config": "^1.23.0",
     "jsdom": "^22.1.0",

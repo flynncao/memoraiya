@@ -3,5 +3,6 @@ export interface Portal {
   name: string
   link: string
   checked: boolean
-  secondArgument: boolean
+  secondArgument?: boolean
+  irregular?: boolean
 }
